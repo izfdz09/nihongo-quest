@@ -1,0 +1,112 @@
+import { cultura, frases, h, kanaBlock, lesson, listen, ojo, p, pairs, q, reply, table, terms, tip } from '../helpers';
+import type { Unit } from '../types';
+
+export const introUnits: Unit[] = [
+  {
+    id: 'm1-u1', title: 'Cómo es el japonés',
+    lessons: [
+      lesson('intro-idioma', 'Cómo funciona el idioma', 'にほんご', 'Tener una idea clara de qué vas a aprender y por qué es más asequible de lo que parece.', [
+        p('El japonés se llama {にほんご} (nihongo) y lo hablan unos 125 millones de personas. Tiene fama de imposible, pero casi toda esa fama viene de la escritura. La gramática es muy regular y la pronunciación, para alguien que habla español, es de las más fáciles que existen.'),
+        table(['Lo que NO tiene', 'Qué significa para ti'],
+          ['Género gramatical', 'No hay palabras masculinas ni femeninas que memorizar.'],
+          ['Artículos', 'No existen «el», «la», «un» ni «una».'],
+          ['Plural obligatorio', '{ねこ} puede ser «gato» o «gatos»; lo aclara el contexto.'],
+          ['Conjugación por persona', 'El verbo es igual para yo, tú, él, nosotros…'],
+          ['Tiempo futuro', 'El presente sirve también para hablar del futuro.']),
+        p('A cambio, hay tres cosas nuevas que requieren paciencia: **la escritura**, **el orden de la frase** (el verbo va al final) y **los niveles de cortesía**. Esta plataforma las introduce poco a poco y en ese orden.'),
+        terms('Tus seis primeras palabras', 'にほん|Japón', 'にほんご|idioma japonés', 'はい|sí', 'いいえ|no', 'ありがとう|gracias', 'すみません|perdone; disculpe'),
+        tip('Cómo estudiar aquí', 'Pulsa el altavoz de cada palabra y repítela en voz alta. Las palabras que aprendas pasan a tu repaso diario: dedicarle cinco minutos al día vale más que una hora a la semana.'),
+      ], [
+        q('¿Cuál de estas cosas NO existe en japonés?', ['El género gramatical', 'Los verbos', 'Las vocales'], 'No hay masculino ni femenino, ni artículos que concuerden. Es una de las grandes ventajas del idioma.'),
+        q('ねこ puede significar…', ['«gato» o «gatos», según el contexto', 'solo «un gato»', 'solo «los gatos»'], 'El plural no es obligatorio: se deduce de la situación o se aclara con un número.', { jp: 'ねこ' }),
+      ]),
+      lesson('intro-diferencias', 'Diferencias con el español', 'ちがい', 'Conocer los cuatro grandes cambios de mentalidad respecto al español.', [
+        h('1. El verbo va al final'),
+        p('En español decimos «Yo como sushi». En japonés el orden es «Yo sushi como». Todo lo importante se guarda para el final de la frase, así que hay que escuchar hasta la última sílaba.'),
+        frases('Compáralo', 'わたし は すし を たべます。|Yo como sushi.|Literalmente: «Yo (tema) sushi (objeto) como».'),
+        h('2. Las partículas hacen el trabajo de las preposiciones'),
+        p('Detrás de cada palabra va una sílaba que indica su papel en la frase: {は} (wa) marca de qué se habla y {を} (o) marca el objeto. Son como etiquetas pegadas **detrás** de la palabra, no delante.'),
+        h('3. Lo que se sobreentiende no se dice'),
+        p('Si está claro quién hace la acción, el sujeto se omite. Repetir «yo» en cada frase suena tan raro como decir «yo» en cada frase en español.'),
+        frases('Sin sujeto', 'すし を たべます。|Como sushi. / Comes sushi. / Comemos sushi.|El contexto dice quién.', 'あした にほん に いきます。|Mañana voy a Japón.|El presente expresa también el futuro.'),
+        h('4. La cortesía está dentro de la gramática'),
+        p('El verbo cambia de forma según a quién le hablas. No es vocabulario aparte como «usted»: es la terminación del propio verbo. Empezarás por la forma cortés, que sirve en cualquier situación.'),
+      ], [
+        q('¿Dónde va el verbo en una frase japonesa?', ['Al final', 'Al principio', 'Después del sujeto'], 'El japonés es un idioma de orden sujeto–objeto–verbo.', { pitfall: 'Traducir palabra por palabra desde el español deja el verbo en mitad de la frase.' }),
+        q('すしを たべます puede significar…', ['«Como sushi» o «comemos sushi», según el contexto', 'Solo «yo como sushi»', 'Solo «él come sushi»'], 'No hay sujeto expreso y el verbo no cambia según la persona.', { jp: 'すし を たべます。' }),
+      ]),
+      lesson('intro-escrituras', 'Los tres sistemas de escritura', 'もじ', 'Distinguir hiragana, katakana y kanji y saber para qué sirve cada uno.', [
+        p('El japonés combina tres escrituras **en la misma frase**. No son alternativas: cada una tiene su función.'),
+        table(['Sistema', 'Aspecto', 'Para qué se usa', 'Cuántos'],
+          ['Hiragana', '{ひらがな}', 'Gramática, terminaciones y palabras japonesas sin kanji', '46'],
+          ['Katakana', '{カタカナ}', 'Palabras extranjeras, nombres no japoneses, onomatopeyas', '46'],
+          ['Kanji', '{漢字[かんじ]}', 'El significado: nombres, raíces de verbos y adjetivos', 'unos 2.000 de uso común']),
+        frases('Los tres juntos', '私[わたし] は スペイン から 来[き]ました。|Vengo de España.|Kanji: 私, 来 · Katakana: スペイン · Hiragana: は, から, きました'),
+        tip('¿Y el rōmaji?', 'El rōmaji es japonés escrito con nuestro alfabeto. Sirve de muleta las primeras semanas, pero en Japón casi nada está escrito así. Aquí lo verás siempre al principio y lo iremos retirando conforme domines el kana.'),
+        p('El orden de estudio es fijo: primero hiragana, después katakana y, con esa base, los kanji poco a poco. Encima de los kanji verás su lectura en pequeño: se llama **furigana**.'),
+      ], [
+        q('¿En qué sistema se escribe una palabra como «café», que viene de otro idioma?', ['Katakana', 'Hiragana', 'Kanji'], 'El katakana se usa para los préstamos: {コーヒー}.'),
+        q('¿Qué es el furigana?', ['La lectura de un kanji escrita encima en kana pequeño', 'Un cuarto sistema de escritura', 'El japonés escrito con letras latinas'], 'Es una ayuda de lectura. El japonés con letras latinas se llama rōmaji.'),
+        q('¿Cuál de estos textos está en hiragana?', ['ありがとう', 'アリガトウ', '有難う'], 'El hiragana tiene trazos curvos; el katakana, rectos y angulosos; los kanji son más densos.', { bare: true }),
+      ]),
+    ],
+  },
+  {
+    id: 'm1-u2', title: 'Sonido, orden y cortesía',
+    lessons: [
+      lesson('intro-pronunciacion', 'Pronunciación básica', 'はつおん', 'Pronunciar las vocales y consonantes sin acento español y entender el ritmo del idioma.', [
+        p('Buenas noticias: el japonés tiene **cinco vocales, las mismas que el español**, y siempre suenan igual. Toca cada una.'),
+        kanaBlock('あ い う え お'),
+        table(['Sonido', 'Cómo pronunciarlo'],
+          ['r', 'Siempre suave, como en «pero». Nunca «rr».'],
+          ['h', 'Se pronuncia: es un soplido suave, no es muda.'],
+          ['j', 'Como la «j» inglesa de «jeans», no como la jota española.'],
+          ['z', 'Sonora, con vibración, como un zumbido.'],
+          ['sh / ch / ts', 'Como en «show», «chico» y «tsunami».'],
+          ['g', 'Siempre suave: «gi» suena «gui».'],
+          ['y', 'Como una «i» rápida: «ya» ≈ «ia».']),
+        h('El ritmo: todas las sílabas duran lo mismo'),
+        p('En español hay sílabas fuertes: ca-MI-no. En japonés cada sílaba dura lo mismo y ninguna se golpea. Di {さくら} como sa-ku-ra, plano, sin acentuar «ku».'),
+        pairs('La duración cambia el significado', 'おばさん|おばあさん|tía, señora / abuela', 'ここ|こうこう|aquí / instituto'),
+        ojo('Vocales que casi desaparecen', 'La «u» y la «i» entre consonantes sordas se susurran: {です} suena «des» y {すき} suena «ski». Escúchalo en el audio; no lo fuerces.'),
+        tip('Cómo escribimos el rōmaji', 'El rōmaji de esta web sigue la escritura japonesa: una «o» larga se escribe «ou» ({がっこう} → gakkou) y una «e» larga, «ei». Se pronuncian como una sola vocal sostenida, no como «o-u».'),
+      ], [
+        q('¿Cómo se pronuncia la «r» de さくら?', ['Suave, como en «pero»', 'Fuerte, como en «perro»', 'Como una «l» inglesa'], 'La R japonesa es siempre un toque simple de la lengua.'),
+        listen('こうこう', '¿Qué palabra has oído?', ['こうこう', 'ここ'], 'Las dos «o» son largas: {こうこう}, «instituto». {ここ}, con vocales cortas, es «aquí».', 'En español no distinguimos vocales largas y cortas: es lo que más hay que entrenar el oído.'),
+        q('¿Cuántas vocales tiene el japonés?', ['Cinco, las mismas que el español', 'Tres', 'Ocho, contando las nasales'], 'a, i, u, e, o: cinco vocales puras que no cambian nunca de sonido.'),
+        q('¿Qué sílaba se acentúa en さくら?', ['Ninguna: las tres duran lo mismo', 'La segunda: sa-KU-ra', 'La última: sa-ku-RÁ'], 'El japonés no tiene acento de intensidad. Golpear una sílaba es el rasgo más reconocible del acento español.', { jp: 'さくら' }),
+        q('です suele sonar…', ['«des», con la «u» casi muda', '«de-SU», con la «u» marcada', '«dez»'], 'La «u» final tras una «s» se susurra en el habla estándar.'),
+      ]),
+      lesson('intro-orden', 'El orden de las frases', 'ごじゅん', 'Formar tus primeras frases con el esquema tema – objeto – verbo.', [
+        p('La frase japonesa básica sigue este esquema:'),
+        table(['Tema + は', 'Objeto + を', 'Verbo'], ['{わたし は}', '{みず を}', '{のみます}'], ['Yo', 'agua', 'bebo']),
+        p('Con el verbo «ser» ({です}) el esquema es aún más simple: **A は B です** = «A es B».'),
+        frases('Lee, escucha y repite', 'これ は ほん です。|Esto es un libro.', 'わたし は みず を のみます。|Yo bebo agua.', 'たなかさん は せんせい です。|El señor Tanaka es profesor.'),
+        h('Las preguntas no cambian el orden'),
+        p('Para preguntar basta con añadir {か} al final. No hace falta signo de interrogación ni cambiar el orden: la frase es idéntica.'),
+        frases('Afirmación y pregunta', 'これ は ほん です か。|¿Esto es un libro?', 'はい、 ほん です。|Sí, es un libro.'),
+        tip('Regla de oro', 'Si dudas, pon el verbo al final. El resto de piezas admite cierta libertad porque cada una lleva su partícula.'),
+      ], [
+        q('¿Qué se añade al final de una frase para convertirla en pregunta?', ['か', 'は', 'を'], '{か} es la partícula interrogativa.', { bare: true }),
+        q('¿Qué significa «A は B です»?', ['A es B', 'A tiene B', 'A y B'], '{は} presenta el tema y {です} equivale a «ser».'),
+      ]),
+      lesson('intro-cortesia', 'Formalidad y educación', 'ていねい', 'Entender los tres registros y por qué empezamos por la forma cortés.', [
+        p('En japonés no se habla igual a un amigo, a un desconocido o a un cliente. Hay tres registros principales:'),
+        table(['Registro', 'Con quién', 'Ejemplo: «comer»'],
+          ['Informal', 'Amigos, familia, gente más joven', '{たべる}'],
+          ['Cortés (です / ます)', 'Desconocidos, compañeros, profesores', '{たべます}'],
+          ['Keigo (honorífico)', 'Clientes, superiores, situaciones formales', '{めしあがります}']),
+        p('En esta plataforma aprenderás primero la **forma cortés**. Es la apuesta segura: nunca resulta maleducada y la entiende todo el mundo. La informal llega en el módulo intermedio y el keigo, en «Mi futuro en Japón».'),
+        terms('La cortesía en dos palabras', 'ありがとう|gracias (informal)', 'ありがとうございます|muchas gracias (cortés)', 'おはよう|buenos días (informal)', 'おはようございます|buenos días (cortés)'),
+        h('El sufijo さん'),
+        p('Detrás del nombre de otra persona se añade {さん}: {たなかさん}. Equivale a «señor» o «señora», pero se usa con casi todo el mundo, también con compañeros.'),
+        ojo('Nunca te pongas さん a ti mismo', 'Decir «soy María-san» suena arrogante. {さん} es una muestra de respeto hacia los demás.'),
+        cultura('Dentro y fuera', 'La cortesía japonesa distingue entre tu grupo (familia, tu empresa) y los de fuera. De los tuyos se habla con humildad y de los demás con respeto. Por eso hay dos palabras para «madre»: la tuya y la de otra persona.'),
+      ], [
+        q('¿Cómo llamas a un compañero que se apellida Tanaka?', ['たなかさん', 'たなか', 'さんたなか'], 'El apellido seguido de {さん} es lo normal entre adultos que no son íntimos.', { pitfall: 'Llamar a alguien solo por el apellido puede sonar brusco.' }),
+        reply('Tanaka|おはようございます。|Buenos días.', ['おはようございます。', 'ありがとう。', 'いいえ。'], 'A un saludo cortés se responde con el mismo saludo cortés.', 'Contestar {おはよう} a secas a alguien mayor o a un superior queda demasiado familiar.'),
+        q('¿Qué registro conviene usar con un desconocido?', ['El cortés, con です y ます', 'El informal', 'Da igual'], 'La forma cortés es la opción segura en cualquier situación nueva.'),
+      ]),
+    ],
+  },
+];
