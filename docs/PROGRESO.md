@@ -16,7 +16,7 @@ Versión 0.1.0. Primera versión funcional y desplegable.
 ## Qué se ha comprobado
 
 - **Tests automáticos (19, todos en verde):** conversión a rōmaji, repetición espaciada, progreso y logros, e integridad del contenido (ningún kanji sin lectura, identificadores únicos, cada lección genera al menos cuatro ejercicios válidos con explicación, opciones sin repetir).
-- **Navegador real (Chromium, 1280 px y 390 px):** las trece rutas cargan sin errores de consola y sin desbordes horizontales. Se han completado lecciones de cada itinerario de principio a fin, una sesión de repaso, el cambio de tema y la persistencia tras recargar.
+- **Navegador real (Chromium, 1280 px y 390 px):** las trece rutas cargan sin errores de consola y sin desbordes horizontales. Se han completado de principio a fin lecciones de los módulos 1, 2, 5, 7 y 8 de la Academia, una sesión de repaso, el cambio de tema y la persistencia tras recargar. De los mundos y de «Mi futuro en Japón» se ha comprobado que las páginas cargan y que sus lecciones generan ejercicios válidos, no una lección completa en el navegador.
 - **GitHub Actions:** instalación, tests, comprobación de tipos con los tipos oficiales de React y compilación con Vite pasan en el repositorio.
 - **Revisión lingüística:** muestreo manual de gramática básica, intermedio, keigo de trabajo y diálogos de los mundos.
 
