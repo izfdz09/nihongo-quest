@@ -11,12 +11,13 @@ Versión 0.1.0. Primera versión funcional y desplegable.
 | 3. Práctica | Hecha | Ocho tipos de ejercicio con explicación, audio, grabación, diálogos y repaso espaciado. |
 | 4. Mundos | Primera versión | 6 mundos, 12 personajes y 12 escenas (2 por mundo). |
 | 5. Vida en Japón | Primera versión | 7 áreas y 15 situaciones. |
-| 6. Finalización | Parcial | Probado en navegador; el despliegue en GitHub Pages está configurado pero pendiente de subir a un repositorio. |
+| 6. Finalización | Parcial | Probado en navegador y subido a GitHub; para publicar falta activar Pages en el repositorio (Settings → Pages → Source: GitHub Actions). |
 
 ## Qué se ha comprobado
 
 - **Tests automáticos (19, todos en verde):** conversión a rōmaji, repetición espaciada, progreso y logros, e integridad del contenido (ningún kanji sin lectura, identificadores únicos, cada lección genera al menos cuatro ejercicios válidos con explicación, opciones sin repetir).
 - **Navegador real (Chromium, 1280 px y 390 px):** las trece rutas cargan sin errores de consola y sin desbordes horizontales. Se han completado lecciones de cada itinerario de principio a fin, una sesión de repaso, el cambio de tema y la persistencia tras recargar.
+- **GitHub Actions:** instalación, tests, comprobación de tipos con los tipos oficiales de React y compilación con Vite pasan en el repositorio.
 - **Revisión lingüística:** muestreo manual de gramática básica, intermedio, keigo de trabajo y diálogos de los mundos.
 
 ## Qué no se ha podido comprobar
@@ -24,7 +25,6 @@ Versión 0.1.0. Primera versión funcional y desplegable.
 - **Audio real.** El navegador de pruebas no tiene voces japonesas, así que se ha verificado el camino «sin voz» (aviso y audio desactivado), no la reproducción. Hay que probarlo en un dispositivo con voz `ja-JP`.
 - **Grabación y reconocimiento de voz.** Requieren micrófono y permisos de usuario.
 - **Orden de trazos.** Depende de una descarga externa (KanjiVG por jsDelivr) que el entorno de pruebas tenía bloqueada; se ha verificado el mensaje de error, no la animación.
-- **La compilación con Vite y la comprobación de tipos con los tipos oficiales de React.** El entorno donde se escribió no permitía instalar dependencias: la aplicación se compiló y probó con esbuild, y los tipos se revisaron con unas declaraciones mínimas de React. El workflow ejecuta ambas cosas en GitHub; el paso de tipos está marcado como no bloqueante hasta confirmar que pasa.
 - **Safari y Firefox.** Solo se ha probado en Chromium.
 
 ## Limitaciones de contenido
@@ -37,7 +37,7 @@ Versión 0.1.0. Primera versión funcional y desplegable.
 
 ## Siguientes pasos
 
-1. Subir el repositorio, activar Pages y probar audio, grabación y trazos en un navegador con voz japonesa.
+1. Activar Pages y probar audio, grabación y trazos en un navegador con voz japonesa.
 2. Completar los kanji de N5 y añadir lectura de frases con kanji a los módulos 5 y 6.
 3. Más escenas por mundo (objetivo: seis) con retos encadenados.
 4. Ampliar «Mi futuro en Japón»: banco, móvil, correos, buscar trabajo por horas.

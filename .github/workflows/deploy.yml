@@ -28,7 +28,6 @@ jobs:
         run: npm test
       - name: Comprobación de tipos
         run: npm run typecheck
-        continue-on-error: true
       - name: Construir
         run: npm run build
       - uses: actions/configure-pages@v5
