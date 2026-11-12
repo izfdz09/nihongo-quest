@@ -36,6 +36,8 @@ npm run build      # genera dist/
 2. En el repositorio: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Solo hay que hacerlo una vez.
 3. Cada `push` a `main` ejecuta `.github/workflows/deploy.yml`: instala, pasa los tests, construye y publica.
 
+Si en el paso 2 se deja «Deploy from a branch», GitHub publica también el código sin compilar en cada cambio. El workflow lo detecta y vuelve a desplegar la versión compilada justo después, así que la web funciona igualmente, pero durante algo menos de un minuto tras cada cambio puede verse en blanco. Con «GitHub Actions» como origen no ocurre.
+
 No hay que tocar nada más. `vite.config.ts` usa una base relativa (`./`) y la navegación va por `#/ruta`, así que la web funciona en `https://usuario.github.io/<repositorio>/` sea cual sea el nombre del repositorio, y al recargar una página interior no aparece un 404.
 
 ## Cómo está organizado
