@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
-import type { Lesson } from '../content/types';
+import { findRef } from '../content';
+import type { Lesson, Track } from '../content/types';
 import { levelOf, liveStreak } from '../lib/progress';
 import { to } from '../lib/router';
 import { useSpeech } from '../lib/speech';
@@ -8,16 +9,52 @@ import { useStore } from '../lib/store';
 import { Logo } from './Art';
 import { Icon } from './Jp';
 
-const NAV = [
-  { path: '/', label: 'Inicio', icon: 'home', mobile: true },
-  { path: '/academia', label: 'Academia', icon: 'line', mobile: true },
-  { path: '/mundos', label: 'Mundos', icon: 'world', mobile: true },
-  { path: '/japon', label: 'Japón', icon: 'japan', mobile: true },
-  { path: '/repaso', label: 'Repaso', icon: 'cards', mobile: true },
-  { path: '/hablar', label: 'Hablar', icon: 'mic', mobile: false },
-  { path: '/panel', label: 'Mi panel', icon: 'chart', mobile: false },
-  { path: '/ajustes', label: 'Ajustes', icon: 'gear', mobile: false },
+interface NavItem { path: string; label: string; icon: string }
+
+const HOME: NavItem = { path: '/', label: 'Inicio', icon: 'home' };
+const ACADEMY: NavItem = { path: '/academia', label: 'Academia', icon: 'line' };
+const REVIEW: NavItem = { path: '/repaso', label: 'Repaso', icon: 'cards' };
+const SPEAK: NavItem = { path: '/hablar', label: 'Práctica oral', icon: 'mic' };
+
+/** El menú se agrupa por lo que el alumno quiere hacer, no por cómo está construida la web. */
+const GROUPS: { title: string; items: NavItem[] }[] = [
+  { title: 'Aprender', items: [
+    ACADEMY,
+    { path: '/registros', label: 'Formal e informal', icon: 'tone' },
+    { path: '/mundos', label: 'Mundos', icon: 'world' },
+    { path: '/japon', label: 'Vivir en Japón', icon: 'japan' },
+  ] },
+  { title: 'Practicar', items: [REVIEW, SPEAK] },
+  { title: 'Tu espacio', items: [
+    { path: '/panel', label: 'Mi panel', icon: 'chart' },
+    { path: '/ajustes', label: 'Ajustes', icon: 'gear' },
+    { path: '/ayuda', label: 'Cómo funciona', icon: 'help' },
+  ] },
 ];
+/** En el móvil caben cuatro pestañas; el resto vive en «Más». */
+const TABS: NavItem[] = [HOME, ACADEMY, REVIEW, SPEAK];
+const MORE: NavItem[] = GROUPS.flatMap((g) => g.items).filter((n) => !TABS.includes(n));
+const TRACK_PATH: Record<Track, string> = { academia: '/academia', mundos: '/mundos', japon: '/japon', registros: '/registros' };
+
+function Status({ streak, todayXp, goal, due }: { streak: number; todayXp: number; goal: number; due: number }) {
+  const pct = Math.min(100, Math.round((todayXp / goal) * 100));
+  return (
+    <div className="status">
+      <a href={to('/panel')} className="chip-stat" title="Racha de estudio">
+        <Icon name="flame" /><b>{streak}</b><span>{streak === 1 ? 'día de racha' : 'días de racha'}</span>
+      </a>
+      <a href={to('/panel')} className={`chip-stat${todayXp >= goal ? ' chip-done' : ''}`} title="Objetivo de hoy">
+        <Icon name="target" /><b>{todayXp}/{goal}</b><span>XP hoy</span>
+        <i className="chip-bar"><i style={{ width: `${pct}%` }} /></i>
+      </a>
+      {due > 0 && (
+        <a href={to('/repaso')} className="chip-stat chip-due" title="Tarjetas pendientes de repaso">
+          <Icon name="cards" /><b>{due}</b><span>para repasar</span>
+        </a>
+      )}
+    </div>
+  );
+}
 
 /** Aviso cuando el dispositivo no tiene voz japonesa. Nunca se sustituye por otra voz. */
 function VoiceNotice() {
@@ -35,10 +72,10 @@ function VoiceNotice() {
   return (
     <div className="voice-notice" role="alert">
       <div>
-        <p><strong>El audio está desactivado: este navegador no tiene ninguna voz japonesa.</strong></p>
-        <p>No reproducimos el japonés con voces de otros idiomas porque la pronunciación sería incorrecta.</p>
+        <p><strong>Audio desactivado: este navegador no tiene ninguna voz japonesa.</strong></p>
         {open && (
           <>
+            <p>No reproducimos el japonés con voces de otros idiomas porque la pronunciación sería incorrecta. Para activarlo, instala una voz japonesa:</p>
             <ul>
               <li><strong>Windows:</strong> Configuración → Hora e idioma → Voz → Agregar voces → Japonés.</li>
               <li><strong>Android:</strong> Ajustes → Idiomas → Síntesis de voz → instala los datos de voz de japonés.</li>
@@ -59,39 +96,77 @@ function VoiceNotice() {
 
 export function Layout({ route, children }: { route: string[]; children: ReactNode }) {
   const { state, today } = useStore();
-  const current = `/${route[0] ?? ''}`;
+  const [menu, setMenu] = useState(false);
+  // Una lección ilumina en el menú el itinerario al que pertenece.
+  const current = route[0] === 'leccion' ? TRACK_PATH[findRef(route[1] ?? '')?.track ?? 'academia'] : `/${route[0] ?? ''}`;
   const due = dueCards(Object.values(state.cards), today).length;
   const streak = liveStreak(state, today);
   const level = levelOf(state.xp);
-  const active = (path: string) => (path === '/' ? current === '/' : current === path || (path === '/academia' && current === '/leccion'));
-  const link = (n: (typeof NAV)[number]) => (
-    <a key={n.path} href={to(n.path)} className={active(n.path) ? 'on' : ''} aria-current={active(n.path) ? 'page' : undefined}>
-      <Icon name={n.icon} />
-      <span>{n.label}</span>
-      {n.path === '/repaso' && due > 0 && <b className="badge" aria-label={`${due} tarjetas pendientes`}>{due}</b>}
-    </a>
-  );
+  const status = { streak, todayXp: state.daily[today] ?? 0, goal: state.settings.goal, due };
+
+  useEffect(() => setMenu(false), [route]);
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menu]);
+
+  const link = (n: NavItem) => {
+    const on = current === n.path;
+    return (
+      <a key={n.path} href={to(n.path)} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}>
+        <Icon name={n.icon} />
+        <span>{n.label}</span>
+        {n.path === '/repaso' && due > 0 && <b className="badge" aria-label={`${due} tarjetas pendientes`}>{due}</b>}
+      </a>
+    );
+  };
+  const moreOn = menu || MORE.some((n) => n.path === current);
+
   return (
     <div className="app">
       <a className="skip" href="#contenido">Saltar al contenido</a>
       <aside className="side">
         <a className="brand" href={to('/')}><Logo /><span><b>NIHONGO</b> QUEST</span></a>
-        <nav aria-label="Secciones">{NAV.map(link)}</nav>
+        <nav aria-label="Secciones">
+          {link(HOME)}
+          {GROUPS.map((g) => (
+            <div className="nav-group" key={g.title} role="group" aria-label={g.title}>
+              <span className="nav-title" aria-hidden="true">{g.title}</span>
+              {g.items.map(link)}
+            </div>
+          ))}
+        </nav>
         <a className="side-foot" href={to('/panel')}>
           <span className="side-level" lang="ja">{level.jp}</span>
-          <span>Nivel {level.level} · {level.title}<br /><small><Icon name="flame" /> {streak} {streak === 1 ? 'día' : 'días'} de racha</small></span>
+          <span>Nivel {level.level}<br /><small>{level.title}</small></span>
         </a>
       </aside>
       <header className="top">
-        <a className="brand" href={to('/')}><Logo size={32} /><span><b>NIHONGO</b> QUEST</span></a>
-        <span className="top-streak" title="Racha de estudio"><Icon name="flame" /> {streak}</span>
-        {NAV.filter((n) => !n.mobile).map((n) => <a key={n.path} href={to(n.path)} aria-label={n.label} className={`top-link${active(n.path) ? ' on' : ''}`}><Icon name={n.icon} /></a>)}
+        <a className="brand" href={to('/')} aria-label="NIHONGO QUEST, inicio"><Logo size={32} /><span><b>NIHONGO</b> QUEST</span></a>
+        <Status {...status} />
       </header>
       <main id="contenido" tabIndex={-1}>
+        <div className="status-row"><Status {...status} /></div>
         <VoiceNotice />
         {children}
       </main>
-      <nav className="tabs" aria-label="Secciones">{NAV.filter((n) => n.mobile).map(link)}</nav>
+      <nav className="tabs" aria-label="Secciones principales">
+        {TABS.map((n) => link(n === SPEAK ? { ...n, label: 'Hablar' } : n))}
+        <button type="button" className={moreOn ? 'on' : ''} aria-expanded={menu} aria-controls="mas-secciones" onClick={() => setMenu(!menu)}>
+          <Icon name="more" /><span>Más</span>
+        </button>
+      </nav>
+      {menu && (
+        <div className="sheet-wrap" onClick={() => setMenu(false)}>
+          <div className="sheet" id="mas-secciones" role="dialog" aria-label="Más secciones" onClick={(e) => e.stopPropagation()}>
+            <h2>Más secciones</h2>
+            <div className="sheet-grid">{MORE.map(link)}</div>
+            <button type="button" className="btn btn-quiet" onClick={() => setMenu(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -11,11 +11,19 @@ const count = (ids: string[], done: Record<string, unknown>) => ids.filter((id) 
 
 export function AcademyPage() {
   const { state } = useStore();
+  const next = nextAcademyLesson(state.done);
+  const started = modules.some((m) => m.units.some((u) => u.lessons.some((l) => state.done[l.id])));
   return (
     <>
       <PageHead jp="がくいん" title="Academia de japonés">
         Ocho líneas que se recorren en orden, de la primera sílaba al japonés intermedio. Puedes entrar en cualquier parada: nada está bloqueado.
       </PageHead>
+      {next && (
+        <a className="continue" href={to(`/leccion/${next.lesson.id}`)}>
+          <span><small>{started ? 'Tu siguiente lección' : 'Empieza por aquí'}</small><strong>{next.lesson.title}</strong><em>{next.groupTitle}</em></span>
+          <span className="btn btn-main">{started ? 'Continuar' : 'Empezar'}</span>
+        </a>
+      )}
       <ol className="lines">
         {modules.map((m) => {
           const ids = m.units.flatMap((u) => u.lessons.map((l) => l.id));
@@ -39,6 +47,10 @@ export function AcademyPage() {
           );
         })}
       </ol>
+      <a className="continue continue-quiet" href={to('/registros')}>
+        <span><small>Sección aparte</small><strong>Formal e informal</strong><em>Cómo cambia el japonés entre amigos, con desconocidos y con un jefe o un cliente.</em></span>
+        <span className="btn btn-quiet">Ver la sección</span>
+      </a>
       <p className="fineprint">Los niveles N5 y N4 son una referencia orientativa del examen JLPT. Completar un módulo no equivale a aprobar el examen: para eso hacen falta además práctica de comprensión, vocabulario más amplio y simulacros oficiales.</p>
     </>
   );
@@ -140,7 +152,7 @@ export function JapanPage() {
           );
         })}
       </ol>
-      <p className="fineprint">Este itinerario usa kanji con furigana y da por sabidos el kana y la gramática básica (módulos 2 a 5). Los trámites y costes descritos son orientativos y cambian con el tiempo: confirma siempre la información oficial antes de hacer una gestión.</p>
+      <p className="fineprint">Este itinerario usa kanji con furigana y da por sabidos el kana y la gramática básica (módulos 2 a 5). Los trámites y costes descritos son orientativos y cambian con el tiempo: confirma siempre la información oficial antes de hacer una gestión. Si el keigo de estos diálogos te resulta nuevo, empieza por <a href={to('/registros')}>Formal e informal</a>.</p>
     </>
   );
 }

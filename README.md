@@ -7,15 +7,16 @@ Plataforma web para aprender japonés desde cero, pensada para hispanohablantes 
 | Sección | Contenido |
 | --- | --- |
 | **Academia** | 8 módulos, 21 unidades y 75 lecciones: introducción, hiragana, katakana, primeras palabras, gramática básica, conversación, kanji y japonés intermedio (referencias N5 y N4). |
+| **Formal e informal** | 4 unidades y 13 lecciones sobre los registros: habla entre amigos, contracciones, partículas finales y jerga; registro cortés, keigo honorífico y humilde, tiendas y correos; errores de registro. Incluye un comparador que dice la misma idea en informal, cortés y keigo. |
 | **Mundos de aprendizaje** | 6 ambientaciones (romance, fantasía, misterio, slice of life, acción y ciencia ficción) con 12 personajes originales y 12 escenas para practicar lo estudiado. |
 | **Mi futuro en Japón** | 7 áreas y 15 situaciones reales: vecinos, vivienda, trabajo, estudios, transporte, compras, hospital, emergencias y ayuntamiento, con registro informal, cortés y keigo. |
-| **Práctica** | Unos 1300 ejercicios por pasada: opción múltiple, traducción en ambos sentidos, completar frases, ordenar palabras, unir parejas, escuchar y elegir, escribir en rōmaji y conversaciones simuladas. Cada respuesta se explica. |
+| **Práctica** | Unos 1500 ejercicios por pasada: opción múltiple, traducción en ambos sentidos, completar frases, ordenar palabras, unir parejas, escuchar y elegir, escribir en rōmaji y conversaciones simuladas. Cada respuesta se explica. |
 | **Audio** | Voces japonesas del dispositivo (SpeechSynthesis, solo `ja-*`), velocidad normal y lenta, repetición ×3 y diálogos completos. Si no hay voz japonesa se avisa y no se sustituye por otra. |
 | **Práctica oral** | Escuchar, leer, grabarse, oírse y comparar con el modelo. Transcripción experimental si el navegador ofrece reconocimiento de voz en japonés. |
 | **Repaso** | Repetición espaciada (cajas de Leitner): tarjetas, repaso diario, palabras por estado, estadísticas y registro de errores con su explicación. |
 | **Mi panel** | Nivel, experiencia, racha, objetivo diario, progreso, vocabulario, actividad reciente y logros. |
 
-El vocabulario suma 766 palabras y expresiones distintas. El rōmaji se retira de forma progresiva: visible en los módulos 1 a 4, a petición en los módulos 5 y 6, y sustituido por furigana desde el módulo 7.
+En total son 115 lecciones y 850 palabras y expresiones distintas. El rōmaji se retira de forma progresiva: visible en los módulos 1 a 4, a petición en los módulos 5 y 6, y sustituido por furigana desde el módulo 7.
 
 ## Ponerlo en marcha
 
@@ -44,6 +45,7 @@ src/
   content/          Todo lo que se enseña (datos, sin lógica)
     academy/        m1, m4–m8: un archivo por módulo
     kana.ts         Módulos 2 y 3, generados a partir de las tablas de kana
+    registers.ts    «Formal e informal»: lecciones y comparador de registros
     worlds.ts       Los seis mundos, sus personajes y escenas
     japan.ts        «Mi futuro en Japón»
     helpers.ts      Atajos para escribir lecciones
@@ -57,7 +59,7 @@ src/
     store.tsx       Estado global y guardado en localStorage
     router.ts       Rutas por hash
   components/       Jp (texto japonés con audio), Blocks, Practice, Layout, Art
-  pages/            Home, Tracks, LessonPage, Review, Speaking, Dashboard, Settings
+  pages/            Home, Tracks, Registers, LessonPage, Review, Speaking, Dashboard, Settings, Help
   styles/           base.css (tokens y piezas comunes) y app.css
 ```
 

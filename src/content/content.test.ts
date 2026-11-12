@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { allRefs, areas, modules, worlds } from './index';
+import { allRefs, areas, modules, phrasebook, registerUnits, worlds } from './index';
 import { buildExercises, lessonSentences, lessonVocab } from '../lib/exercises';
 import { hasKanji, pieces, toRomaji } from '../lib/japanese';
 import type { Lesson } from './types';
@@ -91,5 +91,18 @@ test('las llaves de japonés en línea están bien cerradas', () => {
   for (const t of texts) {
     assert.equal((t.match(/\{/g) ?? []).length, (t.match(/\}/g) ?? []).length, `llaves sin cerrar: ${t}`);
     assert.equal((t.match(/\*\*/g) ?? []).length % 2, 0, `negrita sin cerrar: ${t}`);
+  }
+});
+
+test('registros: unidades con lecciones y comparador con lectura en los tres niveles', () => {
+  assert.ok(registerUnits.length >= 3);
+  for (const u of registerUnits) assert.ok(u.lessons.length >= 2, `${u.id} necesita varias lecciones`);
+  assert.ok(registerUnits.some((u) => u.tone === 'informal') && registerUnits.some((u) => u.tone === 'formal'));
+  assert.ok(phrasebook.length >= 8);
+  for (const ph of phrasebook) {
+    for (const jp of [ph.casual, ph.polite, ph.keigo]) {
+      assert.ok(jp && !hasKanji(toRomaji(jp)), `comparador: falta furigana en «${jp}»`);
+    }
+    assert.equal(new Set([ph.casual, ph.polite, ph.keigo]).size, 3, `comparador: registros repetidos en «${ph.es}»`);
   }
 });

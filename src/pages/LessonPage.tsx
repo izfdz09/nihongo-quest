@@ -2,7 +2,7 @@ import { useMemo, useState, type CSSProperties } from 'react';
 import { Blocks } from '../components/Blocks';
 import { Icon, StageContext } from '../components/Jp';
 import { Practice, type PracticeResult } from '../components/Practice';
-import { findRef, neighbours } from '../content';
+import { findRef, neighbours, positionOf } from '../content';
 import { buildExercises, lessonVocab } from '../lib/exercises';
 import { completeLesson, MEDALS } from '../lib/progress';
 import { to } from '../lib/router';
@@ -10,10 +10,13 @@ import { useStore } from '../lib/store';
 
 interface Summary extends PracticeResult { xp: number; words: number; medals: string[] }
 
+const PHASES = ['learn', 'practice', 'done'] as const;
+const PHASE_LABEL = { learn: 'Aprende', practice: 'Practica', done: 'Resultado' } as const;
+
 export function LessonPage({ id }: { id: string }) {
   const ref = findRef(id);
   const { state, replace } = useStore();
-  const [phase, setPhase] = useState<'learn' | 'practice' | 'done'>('learn');
+  const [phase, setPhase] = useState<(typeof PHASES)[number]>('learn');
   const [round, setRound] = useState(0);
   const [summary, setSummary] = useState<Summary | null>(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,6 +35,15 @@ export function LessonPage({ id }: { id: string }) {
   const { lesson } = ref;
   const { prev, next } = neighbours(id);
   const href = `/leccion/${id}`;
+  const pos = positionOf(id);
+  const step = PHASES.indexOf(phase);
+  // Los pasos de la cabecera también sirven para moverse entre la explicación y la práctica.
+  const goPhase = (ph: (typeof PHASES)[number]) => {
+    if (ph === 'done' || ph === phase) return;
+    if (ph === 'practice' && phase === 'done') setRound(round + 1);
+    setPhase(ph);
+    window.scrollTo(0, 0);
+  };
 
   const finish = (r: PracticeResult) => {
     const vocab = lessonVocab(lesson);
@@ -60,13 +72,26 @@ export function LessonPage({ id }: { id: string }) {
           </nav>
         </header>
 
+        <div className="lesson-bar">
+          <ol className="stepper" aria-label="Pasos de la lección">
+            {PHASES.map((ph, i) => (
+              <li key={ph} className={i === step ? 'on' : i < step ? 'past' : ''} aria-current={i === step ? 'step' : undefined}>
+                <button type="button" disabled={ph === 'done' || i === step} onClick={() => goPhase(ph)}>
+                  <span>{i < step ? <Icon name="check" /> : i + 1}</span>{PHASE_LABEL[ph]}
+                </button>
+              </li>
+            ))}
+          </ol>
+          {pos && <span className="lesson-pos">Lección {pos.n} de {pos.total}{state.done[id] ? ' · ya completada' : ''}</span>}
+        </div>
+
         {phase === 'learn' && (
           <>
             <Blocks blocks={lesson.blocks} />
             <div className="lesson-cta">
               <div>
                 <strong>Ahora, a practicar</strong>
-                <span>{exercises.length} ejercicios. Cada respuesta viene con su explicación.</span>
+                <span>{exercises.length} ejercicios, unos {Math.max(2, Math.round(exercises.length / 3))} minutos. Cada respuesta viene con su explicación.</span>
               </div>
               <button type="button" className="btn btn-main" onClick={() => { setPhase('practice'); window.scrollTo(0, 0); }}>Empezar la práctica</button>
             </div>

@@ -18,6 +18,12 @@ export function Icon({ name }: { name: string }) {
     chart: <path d="M5 20V10M12 20V4M19 20v-7" fill="none" />,
     gear: <><circle cx="12" cy="12" r="3" fill="none" /><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" fill="none" /></>,
     check: <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" />,
+    tone: <><path d="M4 5h11a1 1 0 011 1v6a1 1 0 01-1 1H9l-3 3v-3H4a1 1 0 01-1-1V6a1 1 0 011-1z" fill="none" /><path d="M19 9h1a1 1 0 011 1v6a1 1 0 01-1 1h-1v3l-3-3h-4" fill="none" /></>,
+    help: <><circle cx="12" cy="12" r="8.5" fill="none" /><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.7-1.500 1.200-1.500 2.500" fill="none" /><circle cx="12" cy="17" r="0.600" /></>,
+    more: <><circle cx="5" cy="12" r="1.600" /><circle cx="12" cy="12" r="1.600" /><circle cx="19" cy="12" r="1.600" /></>,
+    arrow: <path d="M5 12h14M13 6l6 6-6 6" fill="none" />,
+    target: <><circle cx="12" cy="12" r="8.500" fill="none" /><circle cx="12" cy="12" r="4.500" fill="none" /><circle cx="12" cy="12" r="1" /></>,
+    book: <path d="M5 4.500h9a3 3 0 013 3V20H8a3 3 0 01-3-3V4.500zM5 17a3 3 0 013-3h9" fill="none" />,
     cross: <path d="M6 6l12 12M18 6L6 18" fill="none" />,
     flame: <path d="M12 3c1 4 5 5.5 5 10a5 5 0 01-10 0c0-2 1-3 2-4 .2 1.5 1 2.5 2 2.5C11 9 10.500 6 12 3z" />,
   };

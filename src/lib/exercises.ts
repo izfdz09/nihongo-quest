@@ -93,7 +93,7 @@ function vocabExercises(vocab: Term[], rnd: Rnd): { easy: Exercise[]; hard: Exer
     hard.push(mixChoice({ k: 'choice', q: `¿Cómo se dice «${t.es}»?`, options: [t.jp, ...others(t).map((o) => o.jp)], answer: 0, why: explain(t), term: t }, rnd));
   });
   if (vocab.length >= 4) hard.push({ k: 'match', pairs: shuffle(vocab, rnd).slice(0, 5) });
-  const typable = shuffle(vocab.filter((t) => !hasKanji(t.jp) && !/[〜…]/.test(t.jp) && toRomaji(t.jp).length <= 14), rnd)[0];
+  const typable = shuffle(vocab.filter((t) => !hasKanji(t.jp) && toRomaji(t.jp).length <= 14 && /^[a-zāīūēō' ]{2,}$/.test(toRomaji(t.jp))), rnd)[0];
   if (typable) {
     hard.push({ k: 'type', q: `Escribe en rōmaji cómo se lee esta palabra («${typable.es}»).`, jp: typable.jp, accept: toRomaji(typable.jp), why: `{${typable.jp}} se lee «${toRomaji(typable.jp)}».` });
   }

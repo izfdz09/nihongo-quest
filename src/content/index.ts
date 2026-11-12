@@ -1,9 +1,10 @@
 import { modules } from './academy';
 import { areas } from './japan';
+import { phrasebook, REGISTER_COLOR, registerUnits } from './registers';
 import type { Lesson, LessonRef } from './types';
 import { worlds } from './worlds';
 
-export { modules, worlds, areas };
+export { modules, worlds, areas, registerUnits, phrasebook, REGISTER_COLOR };
 
 const refs: LessonRef[] = [];
 
@@ -24,6 +25,11 @@ for (const a of areas) {
     refs.push({ lesson, track: 'japon', stage: 3, color: '#4fc0c0', groupId: a.id, groupTitle: `Mi futuro en Japón · ${a.title}`, backHref: `/japon/${a.id}` });
   }
 }
+for (const u of registerUnits) {
+  for (const lesson of u.lessons) {
+    refs.push({ lesson, track: 'registros', stage: 3, color: REGISTER_COLOR, groupId: 'registros', groupTitle: 'Formal e informal', unitTitle: u.title, backHref: '/registros' });
+  }
+}
 
 export const allRefs: LessonRef[] = refs;
 const byId = new Map(refs.map((r) => [r.lesson.id, r]));
@@ -39,7 +45,16 @@ export function neighbours(id: string): { prev?: LessonRef; next?: LessonRef } {
   return { prev: same[i - 1], next: same[i + 1] };
 }
 
+/** Posición de una lección dentro de su grupo (módulo, mundo, área o sección). */
+export function positionOf(id: string): { n: number; total: number } | undefined {
+  const ref = byId.get(id);
+  if (!ref) return undefined;
+  const same = refs.filter((r) => r.groupId === ref.groupId);
+  return { n: same.indexOf(ref) + 1, total: same.length };
+}
+
 export const academyRefs = refs.filter((r) => r.track === 'academia');
+export const registerRefs = refs.filter((r) => r.track === 'registros');
 export const lessonsOf = (groupId: string): Lesson[] => refs.filter((r) => r.groupId === groupId).map((r) => r.lesson);
 
 /** Primera lección de la Academia que el alumno aún no ha completado. */

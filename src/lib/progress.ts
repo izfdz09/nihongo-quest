@@ -73,6 +73,7 @@ export const MEDALS: { id: string; jp: string; title: string; desc: string; test
   { id: 'rep', jp: '復習', title: 'Repasar es aprender', desc: 'Haz 100 repasos de tarjetas.', test: (s) => s.counts.reviews >= 100 },
   { id: 'voz', jp: '声', title: 'En voz alta', desc: 'Graba tu voz por primera vez.', test: (s) => s.counts.recordings >= 1 },
   { id: 'mundos', jp: '世界', title: 'Seis mundos', desc: 'Completa una escena en cada mundo.', test: (s) => worlds.every((w) => w.scenes.some((sc) => s.done[sc.id])) },
+  { id: 'tono', jp: '敬語', title: 'Cada cosa en su sitio', desc: 'Completa una lección informal y una formal de «Formal e informal».', test: (s) => Object.keys(s.done).some((id) => id.startsWith('reg-inf-')) && Object.keys(s.done).some((id) => id.startsWith('reg-for-')) },
   { id: 'japon', jp: '上陸', title: 'Tierra a la vista', desc: 'Completa tu primera situación de «Mi futuro en Japón».', test: (s) => Object.keys(s.done).some((id) => id.startsWith('jp-')) },
 ];
 

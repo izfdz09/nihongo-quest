@@ -116,7 +116,7 @@ export interface Area {
   situations: Lesson[];
 }
 
-export type Track = 'academia' | 'mundos' | 'japon';
+export type Track = 'academia' | 'mundos' | 'japon' | 'registros';
 
 export interface LessonRef {
   lesson: Lesson;

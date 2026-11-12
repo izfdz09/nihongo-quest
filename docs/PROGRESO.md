@@ -1,22 +1,32 @@
 # Estado del proyecto
 
-Versión 0.1.0. Primera versión funcional y desplegable.
+Versión 0.2.0, publicada en https://izfdz09.github.io/nihongo-quest/.
+
+## Cambios de la 0.2
+
+- **Sección nueva «Formal e informal»:** 13 lecciones sobre los registros del japonés y un comparador que dice la misma idea en informal, cortés y keigo.
+- **Navegación:** menú agrupado en Aprender, Practicar y Tu espacio; en el móvil, cuatro pestañas y un menú «Más» con el resto.
+- **Barra de estado:** racha, objetivo del día y tarjetas pendientes, siempre a la vista.
+- **Portada:** quien ya ha empezado ve «Tu sesión de hoy» con tres acciones: lección nueva, repaso y práctica oral.
+- **Lección:** pasos Aprende, Practica y Resultado en la cabecera, con la posición dentro del módulo.
+- **Página «Cómo funciona»:** explica el flujo, los botones de audio y cada sección.
 
 ## Fases
 
 | Fase | Estado | Qué hay |
 | --- | --- | --- |
 | 1. Fundación | Hecha | Proyecto React + TypeScript + Vite, sistema visual, portada, navegación de escritorio y móvil, panel y sistema de progreso. |
-| 2. Academia | Hecha | 8 módulos, 21 unidades, 75 lecciones. |
+| 2. Academia | Hecha | 8 módulos, 21 unidades, 75 lecciones, más la sección «Formal e informal» (13 lecciones). |
 | 3. Práctica | Hecha | Ocho tipos de ejercicio con explicación, audio, grabación, diálogos y repaso espaciado. |
 | 4. Mundos | Primera versión | 6 mundos, 12 personajes y 12 escenas (2 por mundo). |
 | 5. Vida en Japón | Primera versión | 7 áreas y 15 situaciones. |
-| 6. Finalización | Parcial | Probado en navegador y subido a GitHub; para publicar falta activar Pages en el repositorio (Settings → Pages → Source: GitHub Actions). |
+| 6. Finalización | Hecha, con pruebas pendientes | Publicado en GitHub Pages. Faltan por probar en un dispositivo real el audio, la grabación y el orden de trazos. |
 
 ## Qué se ha comprobado
 
-- **Tests automáticos (19, todos en verde):** conversión a rōmaji, repetición espaciada, progreso y logros, e integridad del contenido (ningún kanji sin lectura, identificadores únicos, cada lección genera al menos cuatro ejercicios válidos con explicación, opciones sin repetir).
-- **Navegador real (Chromium, 1280 px y 390 px):** las trece rutas cargan sin errores de consola y sin desbordes horizontales. Se han completado de principio a fin lecciones de los módulos 1, 2, 5, 7 y 8 de la Academia, una sesión de repaso, el cambio de tema y la persistencia tras recargar. De los mundos y de «Mi futuro en Japón» se ha comprobado que las páginas cargan y que sus lecciones generan ejercicios válidos, no una lección completa en el navegador.
+- **Tests automáticos (20, todos en verde):** conversión a rōmaji, repetición espaciada, progreso y logros, e integridad del contenido (ningún kanji sin lectura, identificadores únicos, cada lección genera al menos cuatro ejercicios válidos con explicación, opciones sin repetir).
+- **Navegador real (Chromium, 1280 px y 390 px):** las diecisiete rutas cargan sin errores de consola y sin desbordes horizontales, en tema oscuro y claro. Se han completado de principio a fin lecciones de los módulos 1, 2, 4, 5, 7 y 8 de la Academia y dos de «Formal e informal» (una de introducción y una informal), además de una sesión de repaso, el comparador de registros, el menú «Más» del móvil, los pasos de la lección, el cambio de tema, el borrado con confirmación y la persistencia tras recargar. De los mundos y de «Mi futuro en Japón» se ha comprobado que las páginas cargan y que sus lecciones generan ejercicios válidos, no una lección completa en el navegador.
+- **Generación de ejercicios:** 40 pasadas sobre las 115 lecciones (unos 59 000 ejercicios) sin opciones repetidas ni respuestas imposibles de teclear.
 - **GitHub Actions:** instalación, tests, comprobación de tipos con los tipos oficiales de React y compilación con Vite pasan en el repositorio.
 - **Revisión lingüística:** muestreo manual de gramática básica, intermedio, keigo de trabajo y diálogos de los mundos.
 
@@ -37,7 +47,7 @@ Versión 0.1.0. Primera versión funcional y desplegable.
 
 ## Siguientes pasos
 
-1. Activar Pages y probar audio, grabación y trazos en un navegador con voz japonesa.
+1. Probar audio, grabación y trazos en un navegador con voz japonesa.
 2. Completar los kanji de N5 y añadir lectura de frases con kanji a los módulos 5 y 6.
 3. Más escenas por mundo (objetivo: seis) con retos encadenados.
 4. Ampliar «Mi futuro en Japón»: banco, móvil, correos, buscar trabajo por horas.
