@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Si Pages está configurado como «Deploy from a branch», GitHub publica además el
+  # código sin compilar en cada push. Este disparador vuelve a desplegar la versión
+  # compilada justo después, para que siempre sea la última en publicarse.
+  workflow_run:
+    workflows: [pages-build-deployment]
+    types: [completed]
 
 permissions:
   contents: read
